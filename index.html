@@ -101,12 +101,6 @@ details[open] summary::after{transform:rotate(45deg)}
 .contact ul{list-style:none;padding:0;margin:0 0 22px}
 footer{background:var(--deep);color:var(--on-deep);padding:32px 0;font-size:.9rem}footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .wa{position:fixed;right:18px;bottom:calc(86px + env(safe-area-inset-bottom,0px));width:56px;height:56px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 10px 24px -8px rgba(0,0,0,.5);z-index:30;text-decoration:none;font-size:1.6rem}
-.picker{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:40;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:10px 16px;display:flex;align-items:center;gap:10px;box-shadow:0 14px 40px -12px rgba(0,0,0,.45);max-width:calc(100% - 20px);overflow-x:auto}
-.picker small{font-weight:600;white-space:nowrap}
-.sw{width:30px;height:30px;border-radius:50%;border:2px solid var(--card);cursor:pointer;flex:none;padding:0;box-shadow:0 0 0 1.5px var(--line);background:linear-gradient(135deg,var(--a) 50%,var(--b) 50%)}
-.sw[aria-pressed=true]{box-shadow:0 0 0 2.5px var(--ink)}
-.picker label{display:flex;align-items:center;gap:6px;font-size:.8rem;white-space:nowrap;border-left:1px solid var(--line);padding-left:12px}
-.picker input[type=color]{width:30px;height:30px;border:0;padding:0;background:none;cursor:pointer}
 .res{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;margin-top:30px}.res .card{padding:0;overflow:hidden}.res .tx{padding:26px 26px 18px}.res .meta{color:var(--at,var(--accent));font-weight:600;font-size:.9rem;margin-bottom:8px}.res button{display:block;width:100%;border:0;border-top:1px solid var(--line);padding:0;background:var(--bg);cursor:zoom-in;position:relative}.res button img{display:block;width:100%;height:150px;object-fit:cover;object-position:top}.res button span{position:absolute;right:12px;bottom:12px;background:var(--deep);color:var(--on-deep);font-size:.8rem;padding:6px 12px;border-radius:999px}.note{color:var(--muted);font-size:.9rem;margin-top:18px}dialog{border:0;border-radius:16px;padding:12px;max-width:min(900px,94vw);background:var(--card);color:var(--ink)}dialog::backdrop{background:rgba(0,0,0,.65)}dialog img{width:100%;display:block;border-radius:8px}dialog form{margin:0 0 8px;text-align:right}dialog button{cursor:pointer;border:0;background:var(--accent);color:var(--on-accent);border-radius:999px;padding:8px 16px;font:inherit;font-weight:600}
 .brand{display:flex;align-items:center;gap:12px}.brand img{width:48px;height:48px;border-radius:50%;flex:none}.brand b{font-weight:600}.wm{position:absolute;right:-70px;top:-50px;width:440px;height:440px;opacity:.16;pointer-events:none;border-radius:50%}.fl{display:flex;align-items:center;gap:12px}.fl img{width:46px;height:46px;border-radius:50%}@media (max-width:860px){.wm{width:260px;height:260px;right:-60px;top:-30px}}
 .view{display:none}.view.on{display:block}
@@ -188,12 +182,6 @@ footer{background:var(--deep);color:var(--on-deep);padding:32px 0;font-size:.9re
 </main>
 <footer><div class="wrap"><span class="fl"><img class="lg-img" alt="Logo OpeLegis" width="46" height="46">©OPELEGIS GROUP</span><a href="#">Políticas de privacidad</a></div></footer>
 <a class="wa" href="https://wa.me/573173695938" aria-label="Chatea por WhatsApp" target="_blank" rel="noopener">💬</a>
-<div class="picker" role="group" aria-label="Probar paletas de color"><small>Probar color:</small>
-<button class="sw" style="--a:#0a1830;--b:#c19a3f" data-p="logo" title="Logo: azul noche y dorado" aria-label="Logo: azul noche y dorado" aria-pressed="false"></button>
-<button class="sw" style="--a:#10244a;--b:#f3ecd9" data-p="oscuro" title="Logo oscuro" aria-label="Logo oscuro" aria-pressed="false"></button>
-<button class="sw" style="--a:#0d2f2a;--b:#c9a24b" data-p="verde" title="Verde y dorado" aria-label="Verde y dorado" aria-pressed="false"></button>
-<button class="sw" style="--a:#112a63;--b:#c19a3f" data-p="azul" title="Azul real y dorado" aria-label="Azul real y dorado" aria-pressed="false"></button>
-<label>Acento <input type="color" id="accent" value="#c19a3f" aria-label="Color de acento"></label></div>
 <script>
 (function(){
 var A={
@@ -241,11 +229,7 @@ window.addEventListener("hashchange",route);route();
 document.getElementById("burger").onclick=function(){nav.classList.toggle("open")};
 var sws=document.querySelectorAll(".sw");
 function setP(p){root.setAttribute("data-palette",p);root.style.removeProperty("--accent");root.style.removeProperty("--at");root.style.removeProperty("--on-accent");sws.forEach(function(s){s.setAttribute("aria-pressed",String(s.dataset.p===p))});try{localStorage.setItem("ope-p3",p)}catch(e){}
-var c=getComputedStyle(root).getPropertyValue("--accent").trim();if(/^#[0-9a-f]{6}$/i.test(c))document.getElementById("accent").value=c}
-sws.forEach(function(s){s.onclick=function(){setP(s.dataset.p)}});
-document.getElementById("accent").oninput=function(e){root.style.setProperty("--accent",e.target.value);root.style.setProperty("--at",e.target.value);var c=e.target.value.slice(1),r=parseInt(c.substr(0,2),16),g=parseInt(c.substr(2,2),16),b=parseInt(c.substr(4,2),16);root.style.setProperty("--on-accent",(r*299+g*587+b*114)/1000>150?"#111":"#fff")};
-var sv=null;try{sv=localStorage.getItem("ope-p3")}catch(e){}if(sv&&document.querySelector('.sw[data-p="'+sv+'"]'))setP(sv);
-var t=document.getElementById("track"),h="";for(var i=1;i<=24;i++)h+='<div class="lg">Logo cliente '+i+"</div>";t.innerHTML=h+h;
+
 })();
 </script>
 </body>
